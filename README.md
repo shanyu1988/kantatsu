@@ -1,4 +1,5 @@
-# kantatsu
+# 康达智监控系统说明
+### 版本号：v 0.4
 
 ## Project setup
 ```
@@ -28,8 +29,7 @@ npm run lint
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
-# 康达智监控系统说明
-版本号：
+
 <br>
 ------  
 #### 1.兼容性
