@@ -1,20 +1,32 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+      <left-function-menu></left-function-menu>
+      <router-view></router-view>
   </div>
 </template>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<script>
+//左侧功能菜单
+import LeftFunctionMenu from './components/currency/LeftFunctionMenu.vue'
+export default {
+  name: 'app',
+  methods: {
+      goBack() {
+          window.history.length > 1 ?
+              this.$router.go(-1) :
+              this.$router.push('/')
+      }
+  },
+  mounted(){
+      
+  },
+  components:{
+      LeftFunctionMenu
+  }
 }
+</script>
+<style>
+  #app {
+      width: 100%;
+      height: 100%;
+  }
 </style>
