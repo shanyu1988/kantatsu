@@ -1,27 +1,27 @@
 <template>
-    <ul class="left-menu" id="LeftFunctionMenu">
-        <li class="left-menu-btn" v-on:click="leftMenu">
-            <i v-show="!systemSet.menuBtn" class="iconfont">&#xea07;</i>
-            <i v-show="systemSet.menuBtn" class="iconfont">&#xea06;</i>
-        </li>
-        <li class="full-screen-btn-01"  id="backHome" v-on:click="backHome"
-            >
-            <i v-if="!systemSet.fullScreen" class="iconfont">&#xe95d;</i>
-            <i v-if="systemSet.fullScreen" class="iconfont" style="color: rgba(188, 255, 235, 0.8);text-shadow: 0px 0px 21px rgba(85, 255, 85, 0.7);">&#xe95d;</i>
-        </li>
-        <li class="full-screen-btn-01"  id="fullScreen" v-on:click="fullBtnClick">
-            <i v-if="!systemSet.fullScreen" class="iconfont">&#xe904;</i>
-            <i v-if="systemSet.fullScreen" class="iconfont" style="color: rgba(188, 255, 235, 0.8);text-shadow: 0px 0px 21px rgba(85, 255, 85, 0.7);">&#xe905;</i>
-        </li>
-        <li class="mute-btn-01" v-on:click="muteBtnClick($event)">
-            <i v-show="!systemSet.mute" class="iconfont" style="color: rgba(188, 255, 235, 0.8);text-shadow: 0px 0px 21px rgba(85, 255, 85, 0.7);">&#xeca3;</i>
-            <i v-show="systemSet.mute" class="iconfont">&#xeca3;</i>
-        </li>
-        <li class="lamp-btn-01" v-on:click="lampBtnClick($event)">
-            <i v-if="systemSet.lamp" class="iconfont" style="color: rgba(188, 255, 235, 0.8);text-shadow: 0px 0px 21px rgba(85, 255, 85, 0.7);">&#xecd5;</i>
-            <i v-if="!systemSet.lamp" class="iconfont">&#xecd5;</i>
-        </li>
-    </ul>
+    <div class="left-menu" id="LeftFunctionMenu">
+        <div class="left-menu-btn" v-on:click="leftMenu">
+                <i class="fa fa-list" :style="systemSet.menuBtn?'color: rgba(188, 255, 235, 0.8);text-shadow: 0px 0px 21px rgba(85, 255, 85, 0.7)':''"></i>
+        </div>
+        <transition tag="ul" enter-active-class="animated fadeInLeft" leave-active-class="animated fadeOutLeft">
+            <ul v-if="show" class="left-menu-body">
+                <li class="full-screen-btn-01"  id="backHome" v-on:click="backHome">
+                    <i class="fa fa-home" :style="systemSet.fullScreen?'color:rgba(188, 255, 235, 0.8);text-shadow: 0px 0px 21px rgba(85, 255, 85, 0.7)':''"></i>
+                    返回首页
+                </li>
+            
+                <li class="full-screen-btn-01"  id="fullScreen" v-on:click="fullBtnClick">
+                    <i class="fa fa-arrows-alt" :style="systemSet.fullScreen?'color: rgba(188, 255, 235, 0.8);text-shadow: 0px 0px 21px rgba(85, 255, 85, 0.7)':''"></i>
+                </li>
+                <li class="mute-btn-01" v-on:click="muteBtnClick($event)">
+                    <i class="fa fa-camera-retro" :style="!systemSet.mute?'color:rgba(188, 255, 235, 0.8);text-shadow: 0px 0px 21px rgba(85, 255, 85, 0.7)':''"></i>
+                </li>
+                <li class="lamp-btn-01" v-on:click="lampBtnClick($event)">
+                    <i class="fa fa-camera-retro" :style="systemSet.lamp?'color: rgba(188, 255, 235, 0.8);text-shadow: 0px 0px 21px rgba(85, 255, 85, 0.7)':''"></i>
+                </li>
+            </ul>
+        </transition>
+    </div>
 </template>
 
 <script>
@@ -35,7 +35,8 @@
                     mute: false,            //是否静音  false:未静音       true:已静音
                     lamp: false,             //主题切换  false:dark         true:light
                 },
-
+                //是否显示按钮
+                show:false
             }
         },
         computed:{
@@ -44,7 +45,8 @@
         methods: {
             //返回首页按钮点击事件
             backHome: function () {
-                window.location.href = '/'
+                this.$router.push('/');
+
             },
             launchFullscreen: function (el) {
                 /*判断是否全屏*/
@@ -81,16 +83,16 @@
             },
             leftMenu: function () { //菜单按钮点击事件
                 let menu = document.getElementsByClassName('left-menu')[0];
+                this.show=!this.show;
                 this.systemSet.menuBtn = !this.systemSet.menuBtn
                 if (this.systemSet.menuBtn) {
-                    menu.style.transform = 'translateX(0)';
+                    //menu.style.transform = 'translateX(0)';
                     var _this = this;
                     setTimeout(function () {
-                        menu.style.transform = 'translateX(-41px)';
                         _this.systemSet.menuBtn = false;
+                        _this.show=false;
                     }, 6000)
                 } else {
-                    menu.style.transform = 'translateX(-41px)';
                     this.systemSet.menuBtn = false;
                 }
             },
@@ -126,72 +128,59 @@
 </script>
 <style>
     .left-menu {
-        width: 40px;
-        height: 120px;
+        width: auto;
+        height: 100%;
         position: fixed;
         left: 0;
         z-index: 103;
-        top: 80px;
-        transition: all 0.4s linear;
-        transform: translateX(-41px);
+        top: 0;
     }
-
-    .left-menu li.left-menu-btn {
+    .left-menu .left-menu-body{
+        width:auto;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+        background-color: rgba(0, 0, 0, 0.9);
+        transition: all 0.4s linear; 
+    }
+    .left-menu .left-menu-btn {
         display: block;
         position: absolute;
-        top: 0;
-        right: -31px;
-        width: 30px !important;
-        height: 39px !important;
-        background-color: rgba(0, 0, 0, 0.6);
+        top:40px;
+        right:-40px;
+        width: 40px !important;
+        height: 40px !important;
+        background-color: rgba(0, 0, 0, 0.9);
         z-index: 102;
-        border-radius: 0 6px 6px 0;
-        line-height: 39px;
+        border-radius:0 6px 6px 0;
+        line-height: 40px;
         text-align: center;
         cursor: pointer;
-        transition: all 0.4s linear;
         border-bottom: none !important;
+        transition: all 0.6s linear; 
     }
 
-    .left-menu li.left-menu-btn .iconfont {
+    .left-menu .left-menu-btn .fa {
         color: rgba(255, 255, 255, 0.4);
     }
 
-    .left-menu-btn .iconfont {
-        font-size: 30px;
+    .left-menu-btn .fa {
+        font-size: 24px;
         color: rgba(255, 255, 255, 1);
         margin-left: -3px;
     }
-    .left-menu li.left-menu-btn {
-        position: absolute;
-        top: 0;
-        right: -31px;
-        width: 30px !important;
-        height: 39px !important;
-        background-color: rgba(0, 0, 0, 0.6);
-        z-index: 102;
-        border-radius: 0 6px 6px 0;
-        line-height: 39px;
-        text-align: center;
-        cursor: pointer;
-        transition: all 0.4s linear;
-        border-bottom: none !important;
-    }
-    .left-menu-btn .iconfont {
-        font-size: 30px;
-        color: rgba(255, 255, 255, 1);
-        margin-left: -3px;
-    }
-    .left-menu .iconfont {
+    
+    .left-menu .fa {
         transition: all 0.6s linear;
         color: rgba(255, 255, 255, 0.4);
         font-size: 24px;
     }
     .left-menu li {
+        box-sizing: border-box;
         display: block;
-        width: 40px;
+        width: 240px;
         height: 40px;
-        text-align: center;
+        padding-left: 20px;
         line-height: 40px;
         background-color: rgba(0, 0, 0, 0.8);
         cursor: pointer;
