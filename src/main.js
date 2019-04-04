@@ -19,6 +19,8 @@ Vue.prototype.$axios = axios
 import vuescroll from 'vuescroll/dist/vuescroll-native';
 // 导入vuescroll.css文件
 import 'vuescroll/dist/vuescroll.css';
+//引用字体css
+import 'font-awesome/css/font-awesome.min.css'
 
 //将引用组件绑定到Vue上
 Vue.use(vuescroll,{
