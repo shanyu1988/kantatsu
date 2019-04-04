@@ -2,6 +2,7 @@
   <div id="app">
       <left-function-menu></left-function-menu>
       <router-view></router-view>
+      <router-view name="a"></router-view>
   </div>
 </template>
 <script>
